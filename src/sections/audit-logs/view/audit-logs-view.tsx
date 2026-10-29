@@ -4,15 +4,15 @@ import { useState, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
-import Table from '@mui/material/Table';
-import TableContainer from '@mui/material/TableContainer';
 import Alert from '@mui/material/Alert';
+import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import Typography from '@mui/material/Typography';
+import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { api } from 'src/api/api-client';
@@ -87,79 +87,79 @@ export function AuditLogsView() {
         ) : (
           <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table sx={{ minWidth: 800 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Timestamp</TableCell>
-                <TableCell>Actor</TableCell>
-                <TableCell>Action</TableCell>
-                <TableCell>Entity</TableCell>
-                <TableCell>Branch</TableCell>
-                <TableCell>Change Details</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {logs.length === 0 ? (
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={6} align="center" sx={{ py: 6, color: 'text.secondary' }}>
-                    No audit records logged yet
-                  </TableCell>
+                  <TableCell>Timestamp</TableCell>
+                  <TableCell>Actor</TableCell>
+                  <TableCell>Action</TableCell>
+                  <TableCell>Entity</TableCell>
+                  <TableCell>Branch</TableCell>
+                  <TableCell>Change Details</TableCell>
                 </TableRow>
-              ) : (
-                logs.map((log: any) => (
-                  <TableRow key={log._id} hover>
-                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
-                      <Typography variant="body2">{dayjs(log.createdAt).format('DD MMM YYYY')}</Typography>
-                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                        {dayjs(log.createdAt).format('hh:mm:ss A')}
-                      </Typography>
-                    </TableCell>
-
-                    <TableCell>
-                      <Typography variant="subtitle2">{log.actor?.name || 'System'}</Typography>
-                      <Chip label={log.actor?.role || 'SYSTEM'} size="small" variant="outlined" sx={{ fontSize: 10 }} />
-                    </TableCell>
-
-                    <TableCell>
-                      <Chip label={log.action} color={getActionColor(log.action)} size="small" />
-                    </TableCell>
-
-                    <TableCell>
-                      <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-                        {log.entity}
-                      </Typography>
-                      {log.entityId && (
-                        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
-                          ID: {log.entityId.substring(0, 10)}...
-                        </Typography>
-                      )}
-                    </TableCell>
-
-                    <TableCell>{log.branch?.code || 'HQ'}</TableCell>
-
-                    <TableCell sx={{ maxWidth: 300 }}>
-                      <Typography
-                        variant="caption"
-                        component="pre"
-                        sx={{
-                          p: 1,
-                          bgcolor: 'action.hover',
-                          borderRadius: 1,
-                          m: 0,
-                          overflow: 'auto',
-                          maxHeight: 80,
-                          fontFamily: 'monospace',
-                        }}
-                      >
-                        {JSON.stringify(log.changes, null, 2)}
-                      </Typography>
+              </TableHead>
+              <TableBody>
+                {logs.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} align="center" sx={{ py: 6, color: 'text.secondary' }}>
+                      No audit records logged yet
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                ) : (
+                  logs.map((log: any) => (
+                    <TableRow key={log._id} hover>
+                      <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                        <Typography variant="body2">{dayjs(log.createdAt).format('DD MMM YYYY')}</Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          {dayjs(log.createdAt).format('hh:mm:ss A')}
+                        </Typography>
+                      </TableCell>
+
+                      <TableCell>
+                        <Typography variant="subtitle2">{log.actor?.name || 'System'}</Typography>
+                        <Chip label={log.actor?.role || 'SYSTEM'} size="small" variant="outlined" sx={{ fontSize: 10 }} />
+                      </TableCell>
+
+                      <TableCell>
+                        <Chip label={log.action} color={getActionColor(log.action)} size="small" />
+                      </TableCell>
+
+                      <TableCell>
+                        <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                          {log.entity}
+                        </Typography>
+                        {log.entityId && (
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                            ID: {log.entityId.substring(0, 10)}...
+                          </Typography>
+                        )}
+                      </TableCell>
+
+                      <TableCell>{log.branch?.code || 'HQ'}</TableCell>
+
+                      <TableCell sx={{ maxWidth: 300 }}>
+                        <Typography
+                          variant="caption"
+                          component="pre"
+                          sx={{
+                            p: 1,
+                            bgcolor: 'action.hover',
+                            borderRadius: 1,
+                            m: 0,
+                            overflow: 'auto',
+                            maxHeight: 80,
+                            fontFamily: 'monospace',
+                          }}
+                        >
+                          {JSON.stringify(log.changes, null, 2)}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Card>
     </DashboardContent>
   );

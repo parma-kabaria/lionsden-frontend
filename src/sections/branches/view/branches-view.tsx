@@ -8,19 +8,19 @@ import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import TableContainer from '@mui/material/TableContainer';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import TableRow from '@mui/material/TableRow';
 import MenuItem from '@mui/material/MenuItem';
+import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TableContainer from '@mui/material/TableContainer';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useBranches } from 'src/query';
@@ -361,89 +361,89 @@ export function BranchesView() {
         ) : (
           <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table sx={{ minWidth: 800 }}>
-            <TableHead sx={{ bgcolor: '#f8fafc' }}>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 700 }}>Branch Name & Code</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Type</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>City & State</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Contact Info</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Role In System</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {branches.map(branch => (
-                <TableRow key={branch._id} hover>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Box
-                        sx={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: 1,
-                          bgcolor: branch.type === 'RESORT' ? '#eaf8f0' : '#e8f1fd',
-                          color: branch.type === 'RESORT' ? '#059669' : '#1d68d8',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Iconify icon={branch.type === 'RESORT' ? 'solar:trees-bold' : 'solar:city-bold'} width={22} />
-                      </Box>
-                      <Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                          {branch.name}
-                        </Typography>
-                        <Typography variant="caption" sx={{ fontFamily: 'monospace', color: 'text.secondary' }}>
-                          Code: {branch.code}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={branch.type === 'RESORT' ? 'PHYSICAL RESORT' : 'HEAD OFFICE'}
-                      size="small"
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: 11,
-                        bgcolor: branch.type === 'RESORT' ? '#d1fae5' : '#dbeafe',
-                        color: branch.type === 'RESORT' ? '#065f46' : '#1e40af',
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {branch.address?.city || 'Gujarat'}, {branch.address?.state || 'Gujarat'}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                      {branch.address?.street || 'Eco Zone'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" sx={{ fontSize: 13 }}>
-                      {branch.phone || '+91 98765 43210'}
-                    </Typography>
-                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                      {branch.email || 'info@lionsdenresort.com'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" sx={{ fontSize: 13 }}>
-                      {branch.type === 'RESORT'
-                        ? 'Hosts all 80 Bungalows (1BHK–4BHK)'
-                        : 'Central Sales & Booking Management'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Chip label="Active" size="small" sx={{ bgcolor: '#eaf8f0', color: '#059669', fontWeight: 700 }} />
-                  </TableCell>
+              <TableHead sx={{ bgcolor: '#f8fafc' }}>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: 700 }}>Branch Name & Code</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Type</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>City & State</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Contact Info</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Role In System</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+              </TableHead>
+              <TableBody>
+                {branches.map(branch => (
+                  <TableRow key={branch._id} hover>
+                    <TableCell>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                        <Box
+                          sx={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: 1,
+                            bgcolor: branch.type === 'RESORT' ? '#eaf8f0' : '#e8f1fd',
+                            color: branch.type === 'RESORT' ? '#059669' : '#1d68d8',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          <Iconify icon={branch.type === 'RESORT' ? 'solar:trees-bold' : 'solar:city-bold'} width={22} />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                            {branch.name}
+                          </Typography>
+                          <Typography variant="caption" sx={{ fontFamily: 'monospace', color: 'text.secondary' }}>
+                            Code: {branch.code}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={branch.type === 'RESORT' ? 'PHYSICAL RESORT' : 'HEAD OFFICE'}
+                        size="small"
+                        sx={{
+                          fontWeight: 700,
+                          fontSize: 11,
+                          bgcolor: branch.type === 'RESORT' ? '#d1fae5' : '#dbeafe',
+                          color: branch.type === 'RESORT' ? '#065f46' : '#1e40af',
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {branch.address?.city || 'Gujarat'}, {branch.address?.state || 'Gujarat'}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        {branch.address?.street || 'Eco Zone'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" sx={{ fontSize: 13 }}>
+                        {branch.phone || '+91 98765 43210'}
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                        {branch.email || 'info@lionsdenresort.com'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2" sx={{ fontSize: 13 }}>
+                        {branch.type === 'RESORT'
+                          ? 'Hosts all 80 Bungalows (1BHK–4BHK)'
+                          : 'Central Sales & Booking Management'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip label="Active" size="small" sx={{ bgcolor: '#eaf8f0', color: '#059669', fontWeight: 700 }} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Card>
 
       {/* Dialog: Create Branch */}

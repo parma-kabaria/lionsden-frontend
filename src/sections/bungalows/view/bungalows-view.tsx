@@ -8,24 +8,24 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
 import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Switch from '@mui/material/Switch';
 import Dialog from '@mui/material/Dialog';
+import Switch from '@mui/material/Switch';
 import Tooltip from '@mui/material/Tooltip';
-import TableRow from '@mui/material/TableRow';
 import MenuItem from '@mui/material/MenuItem';
+import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
-import TableContainer from '@mui/material/TableContainer';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -468,33 +468,33 @@ export function BungalowsView() {
         ) : (
           <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table sx={{ minWidth: 850 }}>
-            <TableHead sx={{ bgcolor: '#f8fafc' }}>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 700 }}>Unit No.</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Capacity</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Standard Base Rent</TableCell>
-                <TableCell sx={{ fontWeight: 700 }}>Facilities Included</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>Status</TableCell>
-                {canShowActions && <TableCell align="right" sx={{ fontWeight: 700 }}>Actions</TableCell>}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bungalows.length === 0 ? (
+              <TableHead sx={{ bgcolor: '#f8fafc' }}>
                 <TableRow>
-                  <TableCell colSpan={canShowActions ? 7 : 6} align="center" sx={{ py: 6, color: 'text.secondary' }}>
-                    No bungalows found
-                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Unit No.</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Capacity</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Standard Base Rent</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Facilities Included</TableCell>
+                  <TableCell align="center" sx={{ fontWeight: 700 }}>Status</TableCell>
+                  {canShowActions && <TableCell align="right" sx={{ fontWeight: 700 }}>Actions</TableCell>}
                 </TableRow>
-              ) : (
-                bungalows.map((b: any) => {
-                  const standardRupees = Math.round((b.standardRent || 0) / 100);
+              </TableHead>
+              <TableBody>
+                {bungalows.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={canShowActions ? 7 : 6} align="center" sx={{ py: 6, color: 'text.secondary' }}>
+                      No bungalows found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  bungalows.map((b: any) => {
+                    const standardRupees = Math.round((b.standardRent || 0) / 100);
 
-                  return (
-                    <TableRow key={b._id} hover>
-                      <TableCell sx={{ fontWeight: 800 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          {/* <Box
+                    return (
+                      <TableRow key={b._id} hover>
+                        <TableCell sx={{ fontWeight: 800 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            {/* <Box
                             sx={{
                               width: 32,
                               height: 32,
@@ -510,138 +510,138 @@ export function BungalowsView() {
                           >
                             🏡
                           </Box> */}
-                          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1d68d8' }}>
-                            {b.number}
-                          </Typography>
-                        </Box>
-                      </TableCell>
-
-                      <TableCell>
-                        <Chip
-                          label={b.category}
-                          size="small"
-                          sx={{
-                            fontWeight: 800,
-                            fontSize: 11,
-                            bgcolor:
-                              b.category === '4BHK'
-                                ? '#fdf2f8'
-                                : b.category === '3BHK'
-                                  ? '#f5f3ff'
-                                  : b.category === '2BHK'
-                                    ? '#eff6ff'
-                                    : '#f0fdf4',
-                            color:
-                              b.category === '4BHK'
-                                ? '#9d174d'
-                                : b.category === '3BHK'
-                                  ? '#6d28d9'
-                                  : b.category === '2BHK'
-                                    ? '#1d4ed8'
-                                    : '#047857',
-                          }}
-                        />
-                      </TableCell>
-
-                      <TableCell>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {b.capacity?.maxGuests || 4} Guests Max
-                        </Typography>
-                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                          ({b.capacity?.adults || 2} Adults + {b.capacity?.children || 1} Child)
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell sx={{ fontWeight: 800, color: '#0f172a' }}>
-                        ₹{standardRupees.toLocaleString('en-IN')}{' '}
-                        <Typography component="span" variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-                          / night
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, maxWidth: 220 }}>
-                          {b.facilities?.slice(0, 3).map((f: string) => (
-                            <Chip key={f} label={f} size="small" variant="outlined" sx={{ fontSize: 10, height: 20 }} />
-                          ))}
-                          {b.facilities?.length > 3 && (
-                            <Tooltip title={b.facilities.slice(3).join(', ')}>
-                              <Chip label={`+${b.facilities.length - 3}`} size="small" variant="outlined" sx={{ fontSize: 10, height: 20, bgcolor: '#f1f5f9' }} />
-                            </Tooltip>
-                          )}
-                        </Box>
-                      </TableCell>
-
-                      <TableCell align="center">
-                        {b.maintenanceStatus === 'UNDER_MAINTENANCE' ? (
-                          <Chip
-                            icon={<StatusIcon type="maintenance" size={16} />}
-                            label="Under Maintenance"
-                            size="small"
-                            sx={{ bgcolor: '#fee2e2', color: '#991b1b', fontWeight: 700 }}
-                          />
-                        ) : b.maintenanceStatus === 'PARTIAL' ? (
-                          <Chip
-                            icon={<StatusIcon type="maintenance" size={16} />}
-                            label="Partial Issue"
-                            size="small"
-                            sx={{ bgcolor: '#fef3c7', color: '#92400e', fontWeight: 700 }}
-                          />
-                        ) : (
-                          <Chip
-                            icon={<StatusIcon type="unbooked" size={16} />}
-                            label="Operational"
-                            size="small"
-                            sx={{ bgcolor: '#dcfce7', color: '#166534', fontWeight: 700 }}
-                          />
-                        )}
-                      </TableCell>
-
-                      {canShowActions && (
-                        <TableCell align="right">
-                          <Stack direction="row" spacing={1} justifyContent="flex-end">
-                            {canUpdate && (
-                              <Tooltip title="Edit Bungalow Details">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleOpenEdit(b)}
-                                  sx={{
-                                    color: '#1d68d8',
-                                    bgcolor: '#f0f6ff',
-                                    '&:hover': { bgcolor: '#e0edfe' },
-                                  }}
-                                >
-                                  <Iconify icon="solar:pen-bold" width={18} />
-                                </IconButton>
-                              </Tooltip>
-                            )}
-
-                            {canDelete && (
-                              <Tooltip title="Delete Bungalow Unit">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => handleOpenDelete(b)}
-                                  sx={{
-                                    color: '#dc2626',
-                                    bgcolor: '#fef2f2',
-                                    '&:hover': { bgcolor: '#fee2e2' },
-                                  }}
-                                >
-                                  <Iconify icon="solar:trash-bin-trash-bold" width={18} />
-                                </IconButton>
-                              </Tooltip>
-                            )}
-                          </Stack>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 800, color: '#1d68d8' }}>
+                              {b.number}
+                            </Typography>
+                          </Box>
                         </TableCell>
-                      )}
-                    </TableRow>
-                  );
-                })
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+
+                        <TableCell>
+                          <Chip
+                            label={b.category}
+                            size="small"
+                            sx={{
+                              fontWeight: 800,
+                              fontSize: 11,
+                              bgcolor:
+                                b.category === '4BHK'
+                                  ? '#fdf2f8'
+                                  : b.category === '3BHK'
+                                    ? '#f5f3ff'
+                                    : b.category === '2BHK'
+                                      ? '#eff6ff'
+                                      : '#f0fdf4',
+                              color:
+                                b.category === '4BHK'
+                                  ? '#9d174d'
+                                  : b.category === '3BHK'
+                                    ? '#6d28d9'
+                                    : b.category === '2BHK'
+                                      ? '#1d4ed8'
+                                      : '#047857',
+                            }}
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                            {b.capacity?.maxGuests || 4} Guests Max
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                            ({b.capacity?.adults || 2} Adults + {b.capacity?.children || 1} Child)
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell sx={{ fontWeight: 800, color: '#0f172a' }}>
+                          ₹{standardRupees.toLocaleString('en-IN')}{' '}
+                          <Typography component="span" variant="caption" sx={{ color: 'text.secondary', fontWeight: 500 }}>
+                            / night
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell>
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, maxWidth: 220 }}>
+                            {b.facilities?.slice(0, 3).map((f: string) => (
+                              <Chip key={f} label={f} size="small" variant="outlined" sx={{ fontSize: 10, height: 20 }} />
+                            ))}
+                            {b.facilities?.length > 3 && (
+                              <Tooltip title={b.facilities.slice(3).join(', ')}>
+                                <Chip label={`+${b.facilities.length - 3}`} size="small" variant="outlined" sx={{ fontSize: 10, height: 20, bgcolor: '#f1f5f9' }} />
+                              </Tooltip>
+                            )}
+                          </Box>
+                        </TableCell>
+
+                        <TableCell align="center">
+                          {b.maintenanceStatus === 'UNDER_MAINTENANCE' ? (
+                            <Chip
+                              icon={<StatusIcon type="maintenance" size={16} />}
+                              label="Under Maintenance"
+                              size="small"
+                              sx={{ bgcolor: '#fee2e2', color: '#991b1b', fontWeight: 700 }}
+                            />
+                          ) : b.maintenanceStatus === 'PARTIAL' ? (
+                            <Chip
+                              icon={<StatusIcon type="maintenance" size={16} />}
+                              label="Partial Issue"
+                              size="small"
+                              sx={{ bgcolor: '#fef3c7', color: '#92400e', fontWeight: 700 }}
+                            />
+                          ) : (
+                            <Chip
+                              icon={<StatusIcon type="unbooked" size={16} />}
+                              label="Operational"
+                              size="small"
+                              sx={{ bgcolor: '#dcfce7', color: '#166534', fontWeight: 700 }}
+                            />
+                          )}
+                        </TableCell>
+
+                        {canShowActions && (
+                          <TableCell align="right">
+                            <Stack direction="row" spacing={1} justifyContent="flex-end">
+                              {canUpdate && (
+                                <Tooltip title="Edit Bungalow Details">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => handleOpenEdit(b)}
+                                    sx={{
+                                      color: '#1d68d8',
+                                      bgcolor: '#f0f6ff',
+                                      '&:hover': { bgcolor: '#e0edfe' },
+                                    }}
+                                  >
+                                    <Iconify icon="solar:pen-bold" width={18} />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
+
+                              {canDelete && (
+                                <Tooltip title="Delete Bungalow Unit">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => handleOpenDelete(b)}
+                                    sx={{
+                                      color: '#dc2626',
+                                      bgcolor: '#fef2f2',
+                                      '&:hover': { bgcolor: '#fee2e2' },
+                                    }}
+                                  >
+                                    <Iconify icon="solar:trash-bin-trash-bold" width={18} />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    );
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
 
         <TablePagination
           component="div"
