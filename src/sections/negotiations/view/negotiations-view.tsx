@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -118,13 +119,14 @@ export function NegotiationsView() {
       </Card>
 
       {/* Requests Table */}
-      <Card>
+      <Card sx={{ overflow: 'hidden' }}>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
             <CircularProgress />
           </Box>
         ) : (
-          <Table sx={{ minWidth: 800 }}>
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <Table sx={{ minWidth: 800 }}>
             <TableHead>
               <TableRow>
                 <TableCell>Booking Reference</TableCell>
@@ -234,7 +236,8 @@ export function NegotiationsView() {
               )}
             </TableBody>
           </Table>
-        )}
+        </TableContainer>
+      )}
       </Card>
 
       {/* Decision Dialog */}

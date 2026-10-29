@@ -407,7 +407,7 @@ export function BookingsView() {
             <CircularProgress />
           </Box>
         ) : (
-          <TableContainer sx={{ overflowX: 'auto' }}>
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table sx={{ minWidth: 800 }}>
               <TableHead sx={{ bgcolor: '#f4f6f8' }}>
                 <TableRow>

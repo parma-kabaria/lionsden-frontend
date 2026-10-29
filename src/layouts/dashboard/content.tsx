@@ -32,6 +32,7 @@ export function DashboardContent({
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
+          minWidth: 0,
           pt: 'var(--layout-dashboard-content-pt)',
           pb: 'var(--layout-dashboard-content-pb)',
           [theme.breakpoints.up(layoutQuery)]: {

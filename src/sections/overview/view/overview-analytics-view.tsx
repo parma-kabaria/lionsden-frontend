@@ -7,6 +7,7 @@ import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
@@ -1017,7 +1018,7 @@ export function OverviewAnalyticsView() {
               </Button>
             </Box>
 
-            <Box sx={{ overflowX: 'auto' }}>
+            <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
               <Table size="small" sx={{ minWidth: 880 }}>
                 <TableHead sx={{ bgcolor: '#f8fafc' }}>
                   <TableRow>
@@ -1131,7 +1132,7 @@ export function OverviewAnalyticsView() {
                   )}
                 </TableBody>
               </Table>
-            </Box>
+            </TableContainer>
           </Card>
         </Grid>
 

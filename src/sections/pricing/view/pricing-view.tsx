@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import Button from '@mui/material/Button';
 import Switch from '@mui/material/Switch';
 import Dialog from '@mui/material/Dialog';
@@ -407,7 +408,7 @@ export function PricingView() {
             <CircularProgress />
           </Box>
         ) : (
-          <Box sx={{ overflowX: 'auto' }}>
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
             <Table sx={{ minWidth: 950 }}>
               <TableHead sx={{ bgcolor: '#f8fafc' }}>
                 <TableRow>
@@ -655,7 +656,7 @@ export function PricingView() {
                 )}
               </TableBody>
             </Table>
-          </Box>
+          </TableContainer>
         )}
 
         {/* Table Pagination */}

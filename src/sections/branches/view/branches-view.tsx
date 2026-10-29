@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import TableRow from '@mui/material/TableRow';
@@ -358,7 +359,8 @@ export function BranchesView() {
             <CircularProgress size={32} />
           </Box>
         ) : (
-          <Table>
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <Table sx={{ minWidth: 800 }}>
             <TableHead sx={{ bgcolor: '#f8fafc' }}>
               <TableRow>
                 <TableCell sx={{ fontWeight: 700 }}>Branch Name & Code</TableCell>
@@ -440,7 +442,8 @@ export function BranchesView() {
               ))}
             </TableBody>
           </Table>
-        )}
+        </TableContainer>
+      )}
       </Card>
 
       {/* Dialog: Create Branch */}

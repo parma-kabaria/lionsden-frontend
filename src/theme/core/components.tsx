@@ -153,6 +153,16 @@ const MuiRadio: Components<Theme>['MuiRadio'] = {
   },
 };
 
+const MuiTableContainer: Components<Theme>['MuiTableContainer'] = {
+  styleOverrides: {
+    root: {
+      width: '100%',
+      overflowX: 'auto',
+      WebkitOverflowScrolling: 'touch',
+    },
+  },
+};
+
 // ----------------------------------------------------------------------
 
 export const components = {
@@ -165,6 +175,7 @@ export const components = {
   MuiMenuItem,
   MuiCheckbox,
   MuiTableCell,
+  MuiTableContainer,
   MuiCardHeader,
   MuiOutlinedInput,
   MuiFormControlLabel,

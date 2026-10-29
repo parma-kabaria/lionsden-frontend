@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid';
 import Tabs from '@mui/material/Tabs';
 import Chip from '@mui/material/Chip';
 import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
 import Alert from '@mui/material/Alert';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
@@ -152,26 +153,28 @@ export function ReportsView() {
                 <Typography variant="h6" sx={{ mb: 2 }}>
                   Breakdown by Payment Mode
                 </Typography>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Mode</TableCell>
-                      <TableCell align="center">Transactions</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {collectionsData?.byPaymentMode?.map((item: any) => (
-                      <TableRow key={item.paymentMode}>
-                        <TableCell sx={{ fontWeight: 'bold' }}>{item.paymentMode}</TableCell>
-                        <TableCell align="center">{item.transactionCount}</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: 'bold', color: 'success.main' }}>
-                          ₹{(item.amountRupees || 0).toLocaleString('en-IN')}
-                        </TableCell>
+                <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Mode</TableCell>
+                        <TableCell align="center">Transactions</TableCell>
+                        <TableCell align="right">Amount</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHead>
+                    <TableBody>
+                      {collectionsData?.byPaymentMode?.map((item: any) => (
+                        <TableRow key={item.paymentMode}>
+                          <TableCell sx={{ fontWeight: 'bold' }}>{item.paymentMode}</TableCell>
+                          <TableCell align="center">{item.transactionCount}</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: 'bold', color: 'success.main' }}>
+                            ₹{(item.amountRupees || 0).toLocaleString('en-IN')}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Card>
             </Grid>
 
@@ -180,28 +183,30 @@ export function ReportsView() {
                 <Typography variant="h6" sx={{ mb: 2 }}>
                   Breakdown by Branch
                 </Typography>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Branch</TableCell>
-                      <TableCell align="center">Transactions</TableCell>
-                      <TableCell align="right">Total Realized</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {collectionsData?.byBranch?.map((item: any) => (
-                      <TableRow key={item.branchId}>
-                        <TableCell sx={{ fontWeight: 'bold' }}>
-                          {item.branchName} ({item.branchCode})
-                        </TableCell>
-                        <TableCell align="center">{item.transactionCount}</TableCell>
-                        <TableCell align="right" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                          ₹{(item.amountRupees || 0).toLocaleString('en-IN')}
-                        </TableCell>
+                <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Branch</TableCell>
+                        <TableCell align="center">Transactions</TableCell>
+                        <TableCell align="right">Total Realized</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHead>
+                    <TableBody>
+                      {collectionsData?.byBranch?.map((item: any) => (
+                        <TableRow key={item.branchId}>
+                          <TableCell sx={{ fontWeight: 'bold' }}>
+                            {item.branchName} ({item.branchCode})
+                          </TableCell>
+                          <TableCell align="center">{item.transactionCount}</TableCell>
+                          <TableCell align="right" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                            ₹{(item.amountRupees || 0).toLocaleString('en-IN')}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </Card>
             </Grid>
           </Grid>
@@ -257,51 +262,53 @@ export function ReportsView() {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Outstanding Balances Awaiting Settlement
           </Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Booking ID</TableCell>
-                <TableCell>Customer</TableCell>
-                <TableCell>Bungalow</TableCell>
-                <TableCell align="right">Total Rent</TableCell>
-                <TableCell align="right">Advance Paid</TableCell>
-                <TableCell align="right">Balance Due</TableCell>
-                <TableCell align="center">Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {balancesData.length === 0 ? (
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <Table sx={{ minWidth: 750 }}>
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'text.secondary' }}>
-                    All guest accounts are settled!
-                  </TableCell>
+                  <TableCell>Booking ID</TableCell>
+                  <TableCell>Customer</TableCell>
+                  <TableCell>Bungalow</TableCell>
+                  <TableCell align="right">Total Rent</TableCell>
+                  <TableCell align="right">Advance Paid</TableCell>
+                  <TableCell align="right">Balance Due</TableCell>
+                  <TableCell align="center">Status</TableCell>
                 </TableRow>
-              ) : (
-                balancesData.map((b: any) => (
-                  <TableRow key={b._id} hover>
-                    <TableCell sx={{ fontWeight: 'bold' }}>{b.bookingId}</TableCell>
-                    <TableCell>
-                      <Typography variant="subtitle2">{b.customer?.name}</Typography>
-                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                        {b.customer?.phone}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip label={b.bungalow?.number} size="small" />
-                    </TableCell>
-                    <TableCell align="right">₹{(b.totalAmountRupees || 0).toLocaleString('en-IN')}</TableCell>
-                    <TableCell align="right">₹{(b.advancePaymentRupees || 0).toLocaleString('en-IN')}</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 'bold', color: 'error.main' }}>
-                      ₹{(b.outstandingBalanceRupees || 0).toLocaleString('en-IN')}
-                    </TableCell>
-                    <TableCell align="center">
-                      <Chip label={b.status} size="small" />
+              </TableHead>
+              <TableBody>
+                {balancesData.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} align="center" sx={{ py: 4, color: 'text.secondary' }}>
+                      All guest accounts are settled!
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+                ) : (
+                  balancesData.map((b: any) => (
+                    <TableRow key={b._id} hover>
+                      <TableCell sx={{ fontWeight: 'bold' }}>{b.bookingId}</TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle2">{b.customer?.name}</Typography>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          {b.customer?.phone}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip label={b.bungalow?.number} size="small" />
+                      </TableCell>
+                      <TableCell align="right">₹{(b.totalAmountRupees || 0).toLocaleString('en-IN')}</TableCell>
+                      <TableCell align="right">₹{(b.advancePaymentRupees || 0).toLocaleString('en-IN')}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 'bold', color: 'error.main' }}>
+                        ₹{(b.outstandingBalanceRupees || 0).toLocaleString('en-IN')}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Chip label={b.status} size="small" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Card>
       )}
     </DashboardContent>

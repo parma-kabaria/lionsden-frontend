@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import TableContainer from '@mui/material/TableContainer';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -459,13 +460,14 @@ export function BungalowsView() {
       </Card>
 
       {/* Inventory Table */}
-      <Card sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+      <Card sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', p: 8 }}>
             <CircularProgress />
           </Box>
         ) : (
-          <Table sx={{ minWidth: 850 }}>
+          <TableContainer sx={{ width: '100%', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+            <Table sx={{ minWidth: 850 }}>
             <TableHead sx={{ bgcolor: '#f8fafc' }}>
               <TableRow>
                 <TableCell sx={{ fontWeight: 700 }}>Unit No.</TableCell>
@@ -638,7 +640,8 @@ export function BungalowsView() {
               )}
             </TableBody>
           </Table>
-        )}
+        </TableContainer>
+      )}
 
         <TablePagination
           component="div"
