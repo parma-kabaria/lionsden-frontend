@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useMemo, useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -72,6 +72,17 @@ export function OverviewAnalyticsView() {
       const params: Record<string, string> = {};
       if (selectedBranchId) params.branchId = selectedBranchId;
       const res = await api.get('/dashboard', params);
+      return res?.data || null;
+    },
+    refetchInterval: 30000,
+  });
+
+  const { data: collectionsReportData, isLoading: collectionsLoading } = useQuery({
+    queryKey: ['reports-collections', { branchId: selectedBranchId }],
+    queryFn: async () => {
+      const params: Record<string, string> = {};
+      if (selectedBranchId) params.branchId = selectedBranchId;
+      const res = await api.get('/reports/collections', params);
       return res?.data || null;
     },
     refetchInterval: 30000,
@@ -188,7 +199,35 @@ export function OverviewAnalyticsView() {
   };
 
   const recentBookings: any[] = dashboardData?.recentBookings || [];
-  const branchCollections: any[] = dashboardData?.branchCollections || [];
+  const branchCollections: any[] = useMemo(() => {
+    const rawList = collectionsReportData?.byBranch || dashboardData?.branchCollections || [];
+    if (!rawList.length) return [];
+
+    let maxCollected = 0;
+    for (const b of rawList) {
+      const val = b.totalCollected ?? b.amountRupees ?? 0;
+      if (val > maxCollected) maxCollected = val;
+    }
+
+    return rawList.map((branch: any) => {
+      const totalCollected = branch.totalCollected ?? branch.amountRupees ?? 0;
+      const percentage =
+        branch.percentage !== undefined
+          ? branch.percentage
+          : maxCollected > 0
+            ? Math.round((totalCollected / maxCollected) * 100)
+            : 0;
+
+      return {
+        branchId: branch.branchId || branch._id,
+        branchName: branch.branchName || branch.name || 'Branch',
+        branchCode: branch.branchCode || branch.code || '',
+        totalCollected,
+        transactionCount: branch.transactionCount || 0,
+        percentage: totalCollected > 0 ? Math.max(percentage, 12) : 0,
+      };
+    });
+  }, [collectionsReportData, dashboardData]);
 
   const adminName = user?.name || 'Super Admin';
 
@@ -1290,7 +1329,7 @@ export function OverviewAnalyticsView() {
                 </Button>
               </Box>
 
-              {dashboardLoading ? (
+              {collectionsLoading || (dashboardLoading && branchCollections.length === 0) ? (
                 <Box sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
                   <CircularProgress size={24} sx={{ color: '#1d68d8' }} />
                 </Box>

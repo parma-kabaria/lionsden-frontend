@@ -9,6 +9,18 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 export function ErrorBoundary() {
   const error = useRouteError();
 
+  // Auto-reload if dynamic module failed to fetch after a new deployment
+  const isDynamicChunkError =
+    error instanceof Error &&
+    (error.message?.includes('Failed to fetch dynamically imported module') ||
+      error.message?.includes('error loading dynamically imported module') ||
+      error.message?.includes('Importing a module script failed'));
+
+  if (isDynamicChunkError) {
+    window.location.reload();
+    return null;
+  }
+
   return (
     <>
       {inputGlobalStyles()}

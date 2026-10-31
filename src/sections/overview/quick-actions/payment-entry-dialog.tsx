@@ -31,11 +31,13 @@ export function PaymentEntryDialog({ open, onClose, branchId }: PaymentEntryDial
   const [paymentMode, setPaymentMode] = useState('UPI');
   const [paymentNotes, setPaymentNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [loadingBookings, setLoadingBookings] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     const fetchBookings = async () => {
       try {
+        setLoadingBookings(true);
         const params: Record<string, any> = { limit: 50 };
         if (branchId) params.branchId = branchId;
         const res = await api.get('/bookings', params);
@@ -46,6 +48,8 @@ export function PaymentEntryDialog({ open, onClose, branchId }: PaymentEntryDial
         }
       } catch {
         // Ignored
+      } finally {
+        setLoadingBookings(false);
       }
     };
     fetchBookings();
@@ -98,6 +102,16 @@ export function PaymentEntryDialog({ open, onClose, branchId }: PaymentEntryDial
               onChange={e => setSelectedBookingId(e.target.value)}
               required
             >
+              {loadingBookings && (
+                <MenuItem disabled value="">
+                  Loading reservations...
+                </MenuItem>
+              )}
+              {!loadingBookings && bookings.length === 0 && (
+                <MenuItem disabled value="">
+                  No active reservations found
+                </MenuItem>
+              )}
               {bookings.map(b => (
                 <MenuItem key={b._id} value={b._id}>
                   {b.bookingId} - {b.customer?.name} ({b.bungalow?.number ? `Bungalow ${b.bungalow.number}` : ''})
@@ -149,9 +163,9 @@ export function PaymentEntryDialog({ open, onClose, branchId }: PaymentEntryDial
             type="submit"
             variant="contained"
             color="primary"
-            disabled={submitting || Number(paymentAmount) <= 0}
+            disabled={submitting || loadingBookings || Number(paymentAmount) <= 0}
           >
-            {submitting ? <CircularProgress size={24} /> : 'Record Payment'}
+            {submitting ? <CircularProgress size={20} color="inherit" /> : 'Record Payment'}
           </Button>
         </DialogActions>
       </Box>

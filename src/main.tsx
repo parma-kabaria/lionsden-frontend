@@ -20,6 +20,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+// Auto-reload to fetch fresh bundles when a new deployment invalidates stale chunks
+window.addEventListener('vite:preloadError', (event) => {
+  event.preventDefault();
+  window.location.reload();
+});
+
 const root = createRoot(document.getElementById('root')!);
 
 root.render(
