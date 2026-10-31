@@ -39,7 +39,7 @@ export function BranchesView() {
   const canCreate = can('branches:create');
 
   // TanStack Query for branches
-  const { data: branches = [], isLoading: loading, error: queryError } = useBranches();
+  const { data: branches = [], isLoading: loading } = useBranches();
 
   const [error, setError] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);

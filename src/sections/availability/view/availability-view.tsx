@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Box from '@mui/material/Box';
@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions';
 import CircularProgress from '@mui/material/CircularProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
+import { useBranches } from 'src/query';
 import { api } from 'src/api/api-client';
 import { useBranch } from 'src/context/branch-context';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -33,7 +34,12 @@ import { CustomDatePicker } from 'src/components/custom-date-picker';
 import { usePermissions } from 'src/auth/use-permissions';
 
 export function AvailabilityView() {
-  const { branches, selectedBranchId } = useBranch();
+  const { branches: contextBranches, selectedBranchId, refetchBranches } = useBranch();
+  const { data: queryBranches = [], isLoading: branchesLoading, refetch: refetchQueryBranches } = useBranches();
+  const branches = useMemo(
+    () => (queryBranches.length > 0 ? queryBranches : contextBranches) || [],
+    [queryBranches, contextBranches]
+  );
   const { can } = usePermissions();
   const canBook = can('bookings:create');
 
@@ -99,12 +105,23 @@ export function AvailabilityView() {
   const [bookingSubmitting, setBookingSubmitting] = useState(false);
   const [bookingSuccessMsg, setBookingSuccessMsg] = useState('');
 
-  // Default branch initialization
+  // Default branch initialization & fallback trigger
   useEffect(() => {
-    if (branches.length > 0 && !branchId) {
-      setBranchId(selectedBranchId || branches[0]._id);
+    if (branches.length > 0) {
+      if (!branchId || !branches.some((b: any) => b._id === branchId)) {
+        const preferredBranch =
+          (selectedBranchId && branches.find((b: any) => b._id === selectedBranchId)) ||
+          branches.find((b: any) => b.type === 'RESORT' || b.code === 'DHARI') ||
+          branches[0];
+        if (preferredBranch) {
+          setBranchId(preferredBranch._id);
+        }
+      }
+    } else {
+      refetchQueryBranches();
+      refetchBranches();
     }
-  }, [branches, selectedBranchId, branchId]);
+  }, [branches, selectedBranchId, branchId, refetchQueryBranches, refetchBranches]);
 
   const {
     data: result = null,
@@ -503,7 +520,12 @@ export function AvailabilityView() {
                     },
                   }}
                 >
-                  {branches.map(b => (
+                  {branches.length === 0 && (
+                    <MenuItem value="" disabled>
+                      {branchesLoading ? 'Loading branches...' : 'No branches available'}
+                    </MenuItem>
+                  )}
+                  {branches.map((b: any) => (
                     <MenuItem key={b._id} value={b._id}>
                       {b.name} ({b.code}) — {b.code === 'DHARI' ? 'Resort Property' : 'Central Sales HQ'}
                     </MenuItem>

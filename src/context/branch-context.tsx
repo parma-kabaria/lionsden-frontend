@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback, createContext } from 'react';
 
+import { useBranches } from 'src/query';
 import { api } from 'src/api/api-client';
 
 import { useAuth } from 'src/auth/auth-context';
@@ -27,29 +28,42 @@ const BranchContext = createContext<BranchContextType | undefined>(undefined);
 
 export function BranchProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const [branches, setBranches] = useState<BranchItem[]>([]);
   const [selectedBranchId, setSelectedBranchId] = useState<string>(() => localStorage.getItem('selectedBranchId') || '');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { data: queryBranches = [], isLoading: isQueryLoading, refetch } = useBranches();
+  const [branches, setBranches] = useState<BranchItem[]>([]);
+  const [isManualLoading, setIsManualLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (queryBranches && queryBranches.length > 0) {
+      setBranches(queryBranches);
+    }
+  }, [queryBranches]);
 
   const fetchBranches = useCallback(async () => {
-    if (!localStorage.getItem('accessToken')) return;
-
     try {
-      setIsLoading(true);
-      const res = await api.get('/branches', { isActive: true });
-      if (res?.data) {
+      setIsManualLoading(true);
+      const res = await refetch();
+      if (res?.data && res.data.length > 0) {
         setBranches(res.data);
+      } else {
+        const directRes = await api.get('/branches', { isActive: true });
+        if (directRes?.data) {
+          setBranches(directRes.data);
+        }
       }
     } catch {
       // Handled silently
     } finally {
-      setIsLoading(false);
+      setIsManualLoading(false);
     }
-  }, []);
+  }, [refetch]);
 
   useEffect(() => {
-    fetchBranches();
-  }, [fetchBranches]);
+    if (user && branches.length === 0) {
+      fetchBranches();
+    }
+  }, [user, branches.length, fetchBranches]);
 
   // Set default branch according to user's assigned branch
   useEffect(() => {
@@ -73,7 +87,7 @@ export function BranchProvider({ children }: { children: React.ReactNode }) {
         selectedBranchId,
         setSelectedBranchId: handleSelectBranch,
         selectedBranch,
-        isLoading,
+        isLoading: isQueryLoading || isManualLoading,
         refetchBranches: fetchBranches,
       }}
     >

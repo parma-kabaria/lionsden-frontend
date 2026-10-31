@@ -49,7 +49,7 @@ export function UsersView() {
   const canShowActions = canUpdate || canDelete;
 
   // React Query cached server state
-  const { data: users = [], isLoading: loading, error: queryError } = useUsers(selectedBranchId);
+  const { data: users = [], isLoading: loading } = useUsers(selectedBranchId);
   const { data: roles = [] } = useRoles();
 
   // Add User dialog state
